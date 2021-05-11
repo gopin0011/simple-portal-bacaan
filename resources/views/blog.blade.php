@@ -82,19 +82,19 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="index.html">Home
                       <span class="sr-only">(current)</span>
                     </a>
-                </li>
+                </li> -->
 
-                <li class="nav-item active"><a class="nav-link" href="blog.html">Liputan 6</a></li>
-
+                <li class="nav-item active"><a class="nav-link" href="{{ route('home.liputan6') }}">Liputan 6</a></li>
+<!--
                 <li class="nav-item"><a class="nav-link" href="about-us.html">About Us</a></li>
 
                 <li class="nav-item"><a class="nav-link" href="team.html">Authors</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li> -->
             </ul>
           </div>
         </div>
@@ -140,7 +140,7 @@
                 <ul class="pages">
                 @for ($page = 1; $page <= $result['totalPage']; $page++)
                   <li class="{{ ($result['page'] == $page) ? 'active' : '' }}">
-                    <a href="#">{{ $page }}</a>
+                    <a href="{{  route("home.liputan6") }}?page={{ $page }}">{{ $page }}</a>
                   </li>
                   <!-- <li class="active"><a href="#">2</a></li>
                   <li><a href="#">3</a></li>

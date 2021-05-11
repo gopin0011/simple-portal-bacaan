@@ -70,12 +70,13 @@ class HomeController extends Controller
         ]);
     }
 
-    public function liputan6Index()
+    public function liputan6Index(Request $request)
     {
         $result = [];
 
-        $original_url = 'https://www.liputan6.com/news/indeks';
+        // $original_url = 'https://www.liputan6.com/news/indeks';
         $url = 'http://localhost:8080/liputan6';
+        $url .= ($request->page) ? '?page='.$request->page : '';
 
         $headers = [
             'Content-Type' => 'application/json',
