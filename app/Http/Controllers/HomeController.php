@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
+// use Illuminate\Support\Facades\Redis;
 // use Goutte\Client;
 
 class HomeController extends Controller
@@ -13,11 +15,10 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function cnnNasional()
+    public function masakApaHariIni()
     {
-        $url = 'https://the-lazy-media-api.vercel.app/api/games/console-game?page=1';
         $url = 'https://masak-apa-tomorisakura.vercel.app/api/recipes';
-        // $url = 'https://masak-apa-tomorisakura.vercel.app/api/recipe/cara-membuat-roti-canai';
+        // $url = 'https://masak-apa-tomorisakura.vercel.app/api/recipe/{slug}';
 
         $headers = [
             'Content-Type' => 'application/json',
@@ -38,7 +39,7 @@ class HomeController extends Controller
         echo"</pre>";
     }
 
-    public function newsapi()
+    public function newsApiOrg()
     {
         $result = [];
 
@@ -46,7 +47,7 @@ class HomeController extends Controller
 
         $headers = [
             'Content-Type' => 'application/json',
-            'X-Api-Key' => '708b22f5a1d04a9b97d1eb348e2428fa',
+            'X-Api-Key' => env('X_API_KEY_NEWS_API_ORG'),
         ];
 
         $client = new \GuzzleHttp\Client([
@@ -74,13 +75,59 @@ class HomeController extends Controller
     {
         $result = [];
 
-        // $original_url = 'https://www.liputan6.com/news/indeks';
-        $url = 'http://localhost:8080/liputan6';
-        $url .= ($request->page) ? '?page='.$request->page : '';
+        $urlApi = 'http://localhost:8080/liputan6';
+        $urlApi .= ($request->page) ? '?page='.$request->page : '?page=1';
+
+        $redisKey = $urlApi;
 
         $headers = [
             'Content-Type' => 'application/json',
-            // 'X-Api-Key' => '708b22f5a1d04a9b97d1eb348e2428fa',
+        ];
+
+        $client = new \GuzzleHttp\Client([
+            'headers' => $headers,
+        ]);
+
+        if (!Cache::has($redisKey))
+        {
+            try {
+                $response = $client->request('GET', $urlApi);
+
+                $statusCode = $response->getStatusCode();
+                $content = json_decode($response->getBody());
+
+                if ($statusCode == 200 && $content->status) {
+                    $result = Cache::remember($redisKey, (10 * 60), function () use ($content) {
+                        return $content;
+                    });
+                }
+            }
+            catch (\Exception $e) {
+                echo $e->getMessage();
+                die();
+            }
+        }
+        else {
+            $result = Cache::get($redisKey);
+        }
+
+        dump($result);
+
+        return view('blog', [
+            'result' => $result,
+        ]);
+    }
+
+    public function blogRead(Request $request)
+    {
+        if (!$request->source || !$request->urlPath) abort(404);
+
+        $result = [];
+
+        $urlApi = 'http://localhost:8080/getPost?source='.$request->source.'&urlPath='.$request->urlPath;
+
+        $headers = [
+            'Content-Type' => 'application/json',
         ];
 
         $client = new \GuzzleHttp\Client([
@@ -88,15 +135,17 @@ class HomeController extends Controller
         ]);
 
         try {
-            $response = $client->request('GET', $url);
+            $response = $client->request('GET', $urlApi);
 
             $statusCode = $response->getStatusCode();
             $content = json_decode($response->getBody());
 
+            $result = $content;
+
             if ($statusCode == 200 && $content->status) {
-                $result['page'] = $content->page;
-                $result['totalPage'] = $content->totalPage;
-                $result['result'] = $content->result;
+                //
+            } else {
+                die('Tidak ada data output dari API');
             }
         }
         catch (\Exception $e) {
@@ -104,9 +153,12 @@ class HomeController extends Controller
             die();
         }
 
-        return view('blog', [
+        dump($result);
+
+        return view('blogDetail', [
             'result' => $result,
         ]);
     }
 
 }
+

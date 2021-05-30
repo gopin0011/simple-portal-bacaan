@@ -1,6 +1,10 @@
+## Source API ini
+- https://www.liputan6.com/news/indeks
+
 ## Untuk menjalankan aplikasi ini 
 1. Harus menjalankan applikasi dom-crawler-event
 2. Terhubung ke internet
+3. Install Redis Server
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 

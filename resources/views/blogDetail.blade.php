@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="icon" href="{{ assets/images/favicon.ico') }}">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
@@ -21,44 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.css') }}">
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-    <!-- <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script> -->
-
-    <!-- Additional Scripts -->
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-    <script src="{{ asset('assets/js/owl.js') }}"></script>
-
-
   </head>
-
-  <script type="text/javascript" language="javascript">
-    function sendData(obj){
-        let href = $(obj).attr('data-attr');
-        $.ajax({
-            url: href,
-        //     beforeSend: function() {
-        //         // $('#loader').show();
-        //     },
-            // return the result
-            success: function(result) {
-                $('#mediumModal').modal("show");
-                $('#mediumBody').html(result).show();
-            },
-        //     complete: function() {
-        //         // $('#loader').hide();
-        //     },
-        //     error: function(jqXHR, testStatus, error) {
-        //         console.log(error);
-        //         alert("Page " + href + " cannot open. Error:" + error);
-        //         // $('#loader').hide();
-        //     },
-            timeout: 8000
-        })
-    }
-  </script>
 
   <body>
 
@@ -88,7 +51,7 @@
                     </a>
                 </li> -->
 
-                <li class="nav-item active"><a class="nav-link" href="{{ route('blog.liputan6') }}">Liputan 6</a></li>
+                <li class="nav-item active"><a class="nav-link" href="blog.html">Liputan 6</a></li>
 <!--
                 <li class="nav-item"><a class="nav-link" href="about-us.html">About Us</a></li>
 
@@ -107,8 +70,8 @@
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h2>Liputan 6</h2>
-              <h4>indeks</h4>
+              <h4><i class="fa fa-user"></i>John Doe  &nbsp;&nbsp;&nbsp;&nbsp;  <i class="fa fa-calendar"></i> 12/06/2020 10:30   &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-eye"></i> 114</h4>
+              <h2>Lorem ipsum dolor sit amet, consectetur adipisicing</h2>
             </div>
           </div>
         </div>
@@ -117,67 +80,93 @@
 
     <div class="products">
       <div class="container">
+        <div>
+          <img src="{{ $result->result->image }}" class="img-fluid" alt="" width="1110px">
+        </div>
+        <br>
         <div class="row">
+            <div class="col-md-12">
+              <div class="section-heading">
+                <h2>{{ $result->result->title }}</h2>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+                <p class="text-justify">
+                    {{ $result->result->content }}
+                </p>
+            </div>
+
+            <div class="col-md-4">
+              <div class="left-content">
+                <h4>Lorem ipsum dolor sit amet.</h4>
+
+                <br>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisic elit. Sed voluptate nihil eumester consectetur similiqu consectetur.<br><br>Lorem ipsum dolor sit amet, consectetur adipisic elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti.</p>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, minus?</p>
+              </div>
+            </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <div class="send-message">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>Leave a Comment</h2>
+            </div>
+          </div>
           <div class="col-md-8">
-            <div class="row">
-            @if ($result)
-                @foreach ($result->result as $data)
-                <div class="col-md-6">
-                    <div class="service-item">
-                        <img src="@if (!is_null($data->image)) {{ $data->image }} @else {{ route("image.path", "noimage.png") }} @endif" class="img-fluit" width="350px" height="197px" alt="{{ $data->title }}">
-                        <div class="down-content">
-                            <p style="margin: 0;" class="text-left"><b>{{ substr($data->url, 0,  35) }} ...</b></p>
-                            <p style="margin: 0;" class="text-left">{{ $data->datetime }}</p>
-                            <a title="{{ $data->url}}" alt="{{ $data->url}}" class="services-item-image" style="cursor:pointer;" href="{{ route('blog.read', 'source='.$result->source.'&urlPath='.$data->url) }}">
-                                <h4 class="text-justify">{{ $data->title}}</h4>
-                            </a>
-                            <p style="margin: 0;" class="text-justify">{{ $data->summary }}</p>
-                        </div>
-                    </div>
+            <div class="contact-form">
+              <form id="contact" action="" method="post">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <fieldset>
+                      <input name="name" type="text" class="form-control" id="name" placeholder="Full Name" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <fieldset>
+                      <input name="email" type="text" class="form-control" id="email" placeholder="E-Mail Address" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <textarea name="message" rows="6" class="form-control" id="message" placeholder="Your Message" required=""></textarea>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="filled-button">Submit</button>
+                    </fieldset>
+                  </div>
                 </div>
-                @endforeach
-                <div class="col-md-12">
-                    <ul class="pages">
-                    @for ($page = 1; $page <= $result->totalPage; $page++)
-                    <li class="{{ ($result->page == $page) ? 'active' : '' }}">
-                        <a href="{{  route("blog.liputan6") }}?page={{ $page }}">{{ $page }}</a>
-                    </li>
-                    <!-- <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li> -->
-                    @endfor
-                    </ul>
-                </div>
-            @endif
+              </form>
             </div>
           </div>
 
           <div class="col-md-4">
-            <div class="contact-form">
-              <div class="form-group">
-                <h5>Blog Search</h5>
-              </div>
+              <div class="left-content">
 
-              <div class="row">
-                <div class="col-8">
-                  <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisic elit. Sed voluptate nihil eumester consectetur similiqu consectetur. Lorem ipsum dolor sit amet, consectetur adipisic elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti.</p>
 
-                <div class="col-4">
-                  <button class="filled-button" type="button">Go</button>
-                </div>
+                <br>
+
+                <ul class="social-icons">
+                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                  <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                </ul>
               </div>
             </div>
-
-            <div class="form-group">
-              <h5>Lorem ipsum dolor sit amet</h5>
-            </div>
-
-            <p><a href="blog-details.html">Lorem ipsum dolor sit amet, consectetur adipisicing.</a></p>
-            <p><a href="blog-details.html">Et animi voluptatem, assumenda enim, consectetur quaerat!</a></p>
-            <p><a href="blog-details.html">Ducimus magni eveniet sit doloremque molestiae alias mollitia vitae.</a></p>
-          </div>
         </div>
       </div>
     </div>
@@ -260,24 +249,15 @@
       </div>
     </div>
 
-    <!-- medium modal -->
-    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="mediumBody">
-                    <div>
-                        the result to be displayed apply here
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/js/owl.js') }}"></script>
   </body>
 
 </html>
